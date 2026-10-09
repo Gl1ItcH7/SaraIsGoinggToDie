@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تولد سارا نزدیکه 💕</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Floating decorations -->
+  <div class="floating-hearts" id="floatingHearts"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-logo">💕 تولد سارا</div>
+    <div class="nav-links">
+      <button class="nav-btn active" data-section="home">خانه</button>
+      <button class="nav-btn" data-section="card">کارت دعوت</button>
+      <button class="nav-btn" data-section="wishes">آرزوها</button>
+      <button class="nav-btn" data-section="game">بازی</button>
+      <button class="nav-btn" data-section="checklist">لیست کارها</button>
+    </div>
+  </nav>
+
+  <!-- HOME SECTION - Countdown -->
+  <section id="home" class="section active">
+    <div class="hero">
+      <div class="hero-badge">✨ سورپرایز مخصوص تو</div>
+      <h1 class="hero-title">تولد سارا نزدیکه!</h1>
+      <p class="hero-subtitle">تا جشن بزرگمون فقط این‌قدر مونده...</p>
+
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <span class="countdown-num" id="days">00</span>
+          <span class="countdown-label">روز</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="hours">00</span>
+          <span class="countdown-label">ساعت</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="minutes">00</span>
+          <span class="countdown-label">دقیقه</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="seconds">00</span>
+          <span class="countdown-label">ثانیه</span>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="goToSection('card')">ساخت کارت دعوت 🎀</button>
+        <button class="btn btn-secondary" onclick="goToSection('wishes')">یه آرزو بکش 💌</button>
+      </div>
+
+      <div class="birthday-arrived" id="birthdayArrived" style="display:none;">
+        <h2>🎉 تولدت مبارک سارا! 🎉</h2>
+        <p>امروز روز توئه... پر از شادی و عشق باشی!</p>
+        <button class="btn btn-primary" onclick="triggerConfetti()">کنفتی بیشتر! ✨</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARD MAKER SECTION -->
+  <section id="card" class="section">
+    <div class="section-header">
+      <h2>🎀 ساخت کارت دعوت شخصی</h2>
+      <p>کارت دعوتت رو طراحی کن، متن بنویس، استیکر بذار و دانلود کن</p>
+    </div>
+
+    <div class="card-maker">
+      <div class="card-preview-area">
+        <canvas id="cardCanvas" width="400" height="560"></canvas>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="downloadCard()">دانلود کارت 📥</button>
+          <button class="btn btn-secondary" onclick="copyCardLink()">کپی لینک کارت 🔗</button>
+        </div>
+      </div>
+
+      <div class="card-controls">
+        <div class="control-group">
+          <label>قالب کارت</label>
+          <div class="template-options">
+            <button class="template-btn active" data-template="classic" onclick="setTemplate('classic')">کلاسیک</button>
+            <button class="template-btn" data-template="floral" onclick="setTemplate('floral')">گلی</button>
+            <button class="template-btn" data-template="balloon" onclick="setTemplate('balloon')">بالونی</button>
+            <button class="template-btn" data-template="stars" onclick="setTemplate('stars')">ستاره‌ای</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>رنگ پس‌زمینه</label>
+          <div class="color-options">
+            <button class="color-btn active" style="background:#ffe4ec" data-color="#ffe4ec" onclick="setBgColor('#ffe4ec')"></button>
+            <button class="color-btn" style="background:#e8d5f2" data-color="#e8d5f2" onclick="setBgColor('#e8d5f2')"></button>
+            <button class="color-btn" style="background:#d4eaf7" data-color="#d4eaf7" onclick="setBgColor('#d4eaf7')"></button>
+            <button class="color-btn" style="background:#fff0e0" data-color="#fff0e0" onclick="setBgColor('#fff0e0')"></button>
+            <button class="color-btn" style="background:#e0f5e9" data-color="#e0f5e9" onclick="setBgColor('#e0f5e9')"></button>
+            <button class="color-btn" style="background:#fce4ec" data-color="#fce4ec" onclick="setBgColor('#fce4ec')"></button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>عنوان کارت</label>
+          <input type="text" id="cardTitle" value="دعوت به جشن تولد سارا" maxlength="30" oninput="updateCard()">
+        </div>
+
+        <div class="control-group">
+          <label>اسم صاحب جشن</label>
+          <input type="text" id="cardName" value="سارا" maxlength="25" oninput="updateCard()">
+        </div>
+
+        <div class="control-group">
+          <label>پیام کارت</label>
+          <textarea id="cardMessage" rows="3" maxlength="120" oninput="updateCard()">با کلی عشق و شادی منتظرت هستیم! بیا تا با هم جشن بگیریم 💕</textarea>
+        </div>
+
+        <div class="control-group">
+          <label>تاریخ و مکان (اختیاری)</label>
+          <input type="text" id="cardDate" value="۴ آبان - ساعت ۱۸" maxlength="40" oninput="updateCard()">
+        </div>
+
+        <div class="control-group">
+          <label>استیکر اضافه کن</label>
+          <div class="sticker-options">
+            <button class="sticker-btn" onclick="addSticker('🎂')">🎂</button>
+            <button class="sticker-btn" onclick="addSticker('🎁')">🎁</button>
+            <button class="sticker-btn" onclick="addSticker('🎈')">🎈</button>
+            <button class="sticker-btn" onclick="addSticker('💖')">💖</button>
+            <button class="sticker-btn" onclick="addSticker('🌸')">🌸</button>
+            <button class="sticker-btn" onclick="addSticker('✨')">✨</button>
+            <button class="sticker-btn" onclick="addSticker('🎀')">🎀</button>
+            <button class="sticker-btn" onclick="addSticker('👑')">👑</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>عکس دلخواه (اختیاری)</label>
+          <input type="file" id="cardImage" accept="image/*" onchange="handleImageUpload(event)">
+          <button class="btn btn-small" onclick="removeCardImage()" style="margin-top:8px;">حذف عکس</button>
+        </div>
+
+        <div class="control-group">
+          <button class="btn btn-secondary" onclick="resetCard()">بازنشانی کارت</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WISHES SECTION -->
+  <section id="wishes" class="section">
+    <div class="section-header">
+      <h2>💌 صندوق آرزوها</h2>
+      <p>هر بار کلیک کنی یه آرزوی قشنگ برات می‌کشم</p>
+    </div>
+
+    <div class="wishes-box">
+      <div class="wish-card" id="wishCard">
+        <div class="wish-emoji" id="wishEmoji">💝</div>
+        <p class="wish-text" id="wishText">روی دکمه زیر کلیک کن تا اولین آرزو رو ببینی...</p>
+      </div>
+      <button class="btn btn-primary btn-lg" onclick="drawWish()">یه آرزو بکش ✨</button>
+      <p class="wish-counter">آرزوی شماره <span id="wishCount">0</span></p>
+    </div>
+  </section>
+
+  <!-- GAME SECTION -->
+  <section id="game" class="section">
+    <div class="section-header">
+      <h2>🎈 بازی بالون‌های پاستیلی</h2>
+      <p>بالون‌ها رو بترکون و امتیاز جمع کن! ۳۰ ثانیه وقت داری</p>
+    </div>
+
+    <div class="game-area">
+      <div class="game-stats">
+        <div class="stat">امتیاز: <span id="score">0</span></div>
+        <div class="stat">زمان: <span id="timer">30</span></div>
+        <div class="stat">بهترین: <span id="highScore">0</span></div>
+      </div>
+      <div class="game-canvas-wrap">
+        <canvas id="gameCanvas" width="360" height="480"></canvas>
+        <div class="game-overlay" id="gameOverlay">
+          <h3>آماده‌ای؟</h3>
+          <button class="btn btn-primary" onclick="startGame()">شروع بازی 🎮</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST SECTION -->
+  <section id="checklist" class="section">
+    <div class="section-header">
+      <h2>📝 لیست کارهای تولد</h2>
+      <p>کارهایی که قراره تو جشن انجام بدیم (تیک بزن!)</p>
+    </div>
+
+    <div class="checklist-box">
+      <ul class="checklist" id="checklistItems">
+        <!-- filled by JS -->
+      </ul>
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <span id="progressText">۰ از ۸ انجام شده</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Confetti canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
